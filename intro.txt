@@ -1,5 +1,65 @@
-//lukeoneleelu
+//Wanli Lu 
+//VTuber学习笔记（跳跃性强的流水账）
+//part_1: python记录面部特征点位置
+
+--------------------------
+
 vtuber脸部跟踪有三种实现方法：
 1. 旋转和调整2d图片，做出扭头，表情等
 2. facerig类，3d模型模拟头部
 3. vr,经费充足的话，可全身追踪
+
+流程：
+1. 侦测脸部特征（python)
+2. 传到unity （c#）
+3. 反馈到虚拟人物上
+----------------------------
+
+//开源dlib，获得facebox
+脸部特征由68个cooridate组成（看起来像心形）
+github相关连接：
+1. yinguobing/head_pose_estimation
+2. adrianb/face-alignment (可以检测到完全侧脸，更好）
+
+----------------------------
+
+//第一步的工作原理！
+//
+//干净的sample code,链接below(看不懂函数，但作者备注写得十分到位）
+//https://github.com/yinguobing/head-pose-estimation/blob/master/estimate_head_pose.py
+
+estimate_head_pose:
+1. detect face
+2. detect landmarks
+3. estimate pose
+ 
+----------------------------
+
+after all, use solve PnP(OpenCV中的函数)
+工作原理：
+  given点的2d坐标(68个特征点），
+  //把68个点放到3d建模的脸上，可能会有偏差
+  及3d位置(3d坐标）
+  return camera rotate angle（也就是脸的角度）
+  
+脸角度计算原理，请看链接below (有周杰伦帅脸实例，很好理解）
+https://github.com/jerryhouuu/Face-Yaw-Roll-Pitch-from-Pose-Estimation-using-OpenCV
+  
+-----------------------------
+
+最后一步，让点的移动平滑化(Kalman Filter方法,卡尔曼滤波器)
+
+//estimate_head_pose.py代码的第130行
+可以使得head_rotate/time 的graph变得平滑，不然投影到虚拟人物上后头部会抖动地很厉害
+
+------------------------------
+
+
+
+
+
+**FINAL RESULT**
+https://github.com/IDGAQ/myphotos/blob/main/todaya.png
+(截图自YouTube/AI葵）
+
+ 
