@@ -1,3 +1,4 @@
+//lukeoneleelu
 vtuber脸部跟踪有三种实现方法：
 1. 旋转和调整2d图片，做出扭头，表情等
 2. facerig类，3d模型模拟头部
